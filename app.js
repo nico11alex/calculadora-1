@@ -3,6 +3,7 @@ const operadores = document.querySelectorAll('.operador')
 const numeros = document.querySelectorAll('.numero')
 
 input.value = "0";
+let temporizador = null;
 
 function limpiarPantalla() {
     input.value = "0";
@@ -34,10 +35,6 @@ function ingresarOperadores(operadores) {
     
     if (operadores.textContent === "=") {
         manejoDeErrores()
-        setTimeout(() => {
-            input.value = "0";
-        }, 2000);
-
     } else {
         input.value += operadores.textContent
     }
@@ -75,14 +72,24 @@ function manejoDeErrores() {
             throw new Error("División por cero");
         }
 
+        clearTimeout(temporizador);
+
+        temporizador = setTimeout(() => {
+            input.value = "0"; 
+        }, 2000);
+
     } catch (err) {
         input.value = "Error";
+        temporizador = setTimeout(() => {
+            input.value = "0"; 
+        }, 2000);
     }
     return;
 }
 
 numeros.forEach(numeros => {
     numeros.addEventListener('click', () => {
+        clearTimeout(temporizador);
         ingresarUnNumero(numeros)
     })
 })
@@ -93,7 +100,9 @@ operadores.forEach(operadores => {
             limpiarPantalla()
         } else if (operadores.textContent === "←") {
             quitarValor()
+            clearTimeout(temporizador);
         } else {
+            clearTimeout(temporizador);
             ingresarOperadores(operadores)
         }
     })
