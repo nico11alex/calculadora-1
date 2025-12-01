@@ -18,7 +18,7 @@ function quitarValor() {
 
 function ingresarOperadores(operadores) {
     if (input.value[0] === "0" && input.value.length === 1) {
-        if ("+-×/%".includes(operadores.textContent)) {
+        if ("+-×/%=".includes(operadores.textContent)) {
             alert("El formato usado no es válido!")
             return;
         } else {
