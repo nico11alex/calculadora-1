@@ -6,13 +6,16 @@ input.value = "0";
 let temporizador = null;
 
 function limpiarPantalla() {
+    clearTimeout(temporizador);
     input.value = "0";
 }
 
 function quitarValor() {
     if (input.value.length === 1) {
+        clearTimeout(temporizador);
         return input.value = "0"
     } else {
+        clearTimeout(temporizador);
         return input.value = input.value.slice(0, -1);
     }
 }
@@ -23,12 +26,22 @@ function ingresarOperadores(operadores) {
             alert("El formato usado no es válido!")
             return;
         } else {
+            clearTimeout(temporizador);
             input.value += operadores.textContent
             return;
         }
     }
+    const ultimoSimbolo = input.value.at(-1);
+    if ("+-×/".includes(ultimoSimbolo) && "+-×/".includes(operadores.textContent)) {
+        return;
+    }
+
+    if (ultimoSimbolo === "%" && operadores.textContent === "%") {
+        return;
+    }
 
     if (operadores.textContent === ".") {
+        clearTimeout(temporizador);
         ingresarPunto();
         return;
     }
@@ -36,16 +49,13 @@ function ingresarOperadores(operadores) {
     if (operadores.textContent === "=") {
         manejoDeErrores()
     } else {
+        clearTimeout(temporizador);
         input.value += operadores.textContent
     }
 
 }
 
 function ingresarPunto() {
-    const ultimoSimbolo = input.value.at(-1);
-    if ("+-×/%".includes(ultimoSimbolo)) {
-        return;
-    }
     const partes = input.value.split(/[\+\-\×\/]/);
     const numeroActual = partes[partes.length - 1];
     if (numeroActual.includes(".")) {
@@ -54,11 +64,20 @@ function ingresarPunto() {
     input.value += ".";
 }
 
+function depuesDelPorcentaje() {
+    const ultimoSimbolo = input.value.at(-1);
+    if ("%".includes(ultimoSimbolo)) {
+        return input.value += "×";
+    }
+}
+
 
 function ingresarUnNumero(numeros) {
     if (input.value[0] === "0" && input.value.length === 1) {
         input.value = input.value.replace("0", numeros.textContent);
     } else {
+        clearTimeout(temporizador);
+        depuesDelPorcentaje()
         input.value += numeros.textContent
     }
 }
