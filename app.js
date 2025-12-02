@@ -32,7 +32,7 @@ function ingresarOperadores(operadores) {
         }
     }
     const ultimoSimbolo = input.value.at(-1);
-    if ("+-×/".includes(ultimoSimbolo) && "+-×/".includes(operadores.textContent)) {
+    if ("+-×/".includes(ultimoSimbolo) && "+-×/%".includes(operadores.textContent)) {
         return;
     }
 
