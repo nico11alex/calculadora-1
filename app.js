@@ -61,6 +61,10 @@ function ingresarPunto() {
     if (numeroActual.includes(".")) {
         return;
     }
+    if(numeroActual === ""){
+        input.value += "0"
+    }
+
     input.value += ".";
 }
 
@@ -70,7 +74,6 @@ function depuesDelPorcentaje() {
         return input.value += "×";
     }
 }
-
 
 function ingresarUnNumero(numeros) {
     if (input.value[0] === "0" && input.value.length === 1) {
